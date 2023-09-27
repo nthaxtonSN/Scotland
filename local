@@ -1,0 +1,18 @@
+// Define the table name and conditions to filter open records
+var tableName = 'incident'; // Change this to your table name
+var conditions = 'active=true'; // Modify this condition as needed
+
+// Query for open records
+var gr = new GlideRecord(tableName);
+gr.addEncodedQuery(conditions);
+gr.query();
+
+// Iterate through open records and close them
+while (gr.next()) {
+    gr.setValue('active', false);
+    gr.setValue('state', '6'); // Assuming '6' represents the 'Closed' state in your system
+    gr.update();
+}
+
+// Log the number of records closed
+gs.info("Closed " + gr.getRowCount() + " open records in the " + tableName + " table.");
